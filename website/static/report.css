@@ -1,0 +1,25 @@
+body {
+    background-color: white !important;
+
+
+}
+
+h1,h2,h3,h4, label,p{
+    color: black !important;
+}
+
+.table .tghead{
+    font-weight:bold;text-align:left;
+    color: black!important;
+}
+
+.table .tgcharge{
+    font-weight:bold;text-align:center;color: black !important;
+}
+.table .tgcharge-total{
+    font-weight:bold;text-align:center;color: red;
+}
+.table .tgtotal{background-color:#c0c0c0;font-weight:bold;}
+td{
+    color: black !important;
+}

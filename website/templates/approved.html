@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block stylesheet %}<link rel="stylesheet" href="{{url_for('static', filename='review.css')}}">{% endblock %}
+{% block title %}Review Exit Form{% endblock %}
+
+{% block content %}
+
+    <br>
+    <h3 align="center">Review Exit Forms</h3>
+    <br>
+    <table class="table table-hover ">
+        <thead>
+            <tr>
+              <th class="tghead">Empolyees Pending Review</th>
+              
+            </tr>
+          </thead>
+        {% for employee in exit_employees %}
+            {% if employee.final_approval_status == 'Approved'  %}
+                <tr>
+                    <td><a href="{{url_for('views.report', id=employee.id)}}">{{employee.staff_name}}</a> - {{employee.employee_id}} - <a href="{{url_for('views.download', id=employee.id)}}" class="btn btn-primary">Download Report</a></td>    
+
+
+                </tr>
+            
+            {% endif %}
+
+
+
+        {% endfor %}   
+    
+    </table> 
+
+    
+     
+
+{% endblock %}

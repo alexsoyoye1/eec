@@ -1,0 +1,574 @@
+{% extends "base.html" %}
+{% block stylesheet %}<link rel="stylesheet" href="{{url_for('static', filename='review.css')}}">{% endblock %}
+{% block title %}Review Exit Form{% endblock %}
+
+{% block content %}
+    <br>
+    <h3 align="center">Review Exit Forms</h3>
+    <br>
+    <form action="/update/{{ id_to_update.id }}" method="POST">
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="employee_id">Employee ID:</label>
+                    <input type="text" class="form-control" id="employee_id" name="employee_id" value="{{ id_to_update.employee_id }}" readonly/>
+                </div>
+
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="staff_name">Staff Name:</label>
+                    <input type="text" class="form-control" id="staff_name" name="staff_name" value="{{ id_to_update.staff_name }}" readonly/>
+                </div>
+            </div>
+            {% if user.department == "CS" and user.head_status == "Yes" %}
+            <div class="col">
+                <div class="form-group">
+                    <label for="days_inlieu">In Lieu Days:</label>
+                    <input type="number" class="form-control" id="days_inlieu" name="days_inlieu" value="{{ id_to_update.days_inlieu }}" readonly/>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="leave_days">Accrued Leave Days:</label>
+                    <input type="number" class="form-control" id="leave_days" name="leave_days" value="{{ id_to_update.leave_days }}" readonly/>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        {% if (user.department == "Operations" and user.linemanager_status == "Yes") or (user.linemanager_status == "Yes" and user.head_status == "No" and user.department == "HR") or (user.linemanager_status == "Yes" and user.head_status == "Yes" and user.department == "HR")  %}
+        <div class="form-group">
+            <label for="bus_damages_recoverable">Damages & Breakages Recoverable(N):</label>
+            <input type="number" class="form-control" id="bus_damages_recoverable" name="bus_damages_recoverable"/>
+        </div>
+        <div class="form-group">
+            <label for="bus_cash_recoverable">Cash & Stocks Shortages Recoverable(N):</label>
+            <input type="number" class="form-control" id="bus_cash_recoverable" name="bus_cash_recoverable"/>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="id_collected">Staff ID Card Collected:</label>
+                    <select id="id_collected" name="id_collected" class="form-select" required>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>   
+                    </select>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="uniform_collected">Uniforms/PPE Returned:</label>
+                    <select id="uniform_collected" name="uniform_collected" class="form-select" required>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                        <option value="Not Applicable">Not Applicable</option>    
+                    </select>
+                </div>    
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="hmo_collected">HMO Membership Card Collected:</label>
+                    <select id="hmo_collected" name="hmo_collected" class="form-select" required>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>   
+                    </select>
+                </div>    
+            </div>
+        </div>
+        
+        {% elif user.department == "Finance" and user.head_status == "Yes" %}
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="loan_balance">Outstanding Loan Balance(N):</label>
+                    <input type="number" class="form-control" id="loan_balance" name="loan_balance" />
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="rent_loan">Rent Loan(N):</label>
+                    <input type="number" class="form-control" id="rent_loan" name="rent_loan" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="excess_car_main">Car Maintenance Excess(N):</label>
+            <input type="number" class="form-control" id="excess_car_main" name="excess_car_main" />
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="fin_damages_recoverable">Damages & Breakages Recoverable(N):</label>
+                    <input type="number" class="form-control" id="fin_damages_recoverable" name="fin_damages_recoverable"/>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="fin_cash_recoverable">Cash & Stocks Shortages Recoverable(N):</label>
+                    <input type="number" class="form-control" id="fin_cash_recoverable" name="fin_cash_recoverable"/>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="other_charges">Others(N):</label>
+            <input type="number" class="form-control" id="other_charges" name="other_charges" />
+        </div>
+        
+    
+        {% elif user.department == "IT" and user.head_status == "Yes" %}
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="laptop_make">Laptop Make:</label>
+                    <input type="text" class="form-control" id="laptop_make" name="laptop_make" />
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="laptop_sn">Laptop Serial No:</label>
+                    <input type="text" class="form-control" id="laptop_sn" name="laptop_sn" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="phone_make">Phone Make:</label>
+                    <input type="text" class="form-control" id="phone_make" name="phone_make" />
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="phone_sn">Phone Serial No:</label>
+                    <input type="text" class="form-control" id="phone_sn" name="phone_sn" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="ipad_make">IPad/Others Make:</label>
+                    <input type="text" class="form-control" id="ipad_make" name="ipad_make" />
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="ipad_sn">IPad/Others Serial No:</label>
+                    <input type="text" class="form-control" id="ipad_sn" name="ipad_sn" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="cug_debt">Debts on CUG Line:</label>
+            <input type="text" class="form-control" id="cug_debt" name="cug_debt" />
+        </div>
+        {% elif user.department == "CS" and user.head_status == "Yes" %}
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="car_brand">Company Car Brand:</label>
+                    <input type="text" class="form-control" id="car_brand" name="car_brand" />
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="car_rn">Company Car Reg No:</label>
+                    <input type="text" class="form-control" id="car_rn" name="car_rn" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="car_status">Company Car Return Checklist:</label>
+                    <select id="car_status" name="car_status" class="form-select" required>
+                        <option value="Ok">Ok</option>
+                        <option value="Not Ok">Not Ok</option> 
+                        <option value="Not Applicable">Not Applicable</option>  
+                    </select>
+                </div>   
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="accom_status">Company Accomodation Checklist:</label>
+                    <select id="accom_status" name="accom_status" class="form-select" required>
+                        <option value="Ok">Ok</option>
+                        <option value="Not Ok">Not Ok</option> 
+                        <option value="Not Applicable">Not Applicable</option>  
+                    </select>
+                </div> 
+            </div>
+        </div>
+        <br>
+        <p><strong>Charges/Deductions</strong></p>
+        <div class="form-group">
+            <label for="travel_advance">Outstanding Travel Advance(N):</label>
+            <input type="number" class="form-control" id="travel_advance" name="travel_advance" />
+        </div>
+        <br>
+        
+        {% elif user.department == "HR" %}
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="department">Department:</label>
+                    <input type="text" class="form-control" id="department" name="department" value="{{ id_to_update.department }}" readonly/>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="location">Location:</label>
+                    <input type="text" class="form-control" id="location" name="location" value="{{ id_to_update.location }}" readonly/>
+                </div> 
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="confirmed_employee">Confirmed Employee:</label>
+            <input type="text" class="form-control" id="confirmed_employee" name="confirmed_employee" value="{{ id_to_update.confirmed_employee }}" readonly/>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="employmentdate">Employment Date:</label>
+                    <input type="date" class="form-control" id="employmentdate" name="employmentdate" value="{{ id_to_update.employmentdate }}" readonly/>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="req_notice">Required Notice Period:</label>
+                    <input type="number" class="form-control" id="req_notice" name="req_notice" value="{{ id_to_update.req_notice }}" readonly/>
+                </div>
+                
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="res_received_date">Resignation/Termination Start Date:</label>
+                    <input type="date" class="form-control" id="res_received_date" name="res_received_date" value="{{ id_to_update.res_received_date }}" readonly/>
+                </div>
+                
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="prop_exitdate">Proposed Exit Date:</label>
+                    <input type="date" class="form-control" id="prop_exitdate" name="prop_exitdate" value="{{ id_to_update.prop_exitdate }}" readonly/>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="cal_exitdate">Calculated Exit Date:</label>
+                    <input type="date" class="form-control" id="cal_exitdate" name="cal_exitdate" value="{{ id_to_update.cal_exitdate }}" readonly/>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="days_inlieu">In Lieu Days:</label>
+                    <input type="number" class="form-control" id="days_inlieu" name="days_inlieu" value="{{ id_to_update.days_inlieu }}" readonly/>
+                </div>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="leave_days">Accrued Leave Days:</label>
+            <input type="number" class="form-control" id="leave_days" name="leave_days" value="{{ id_to_update.leave_days }}" readonly/>
+        </div>
+        <br>
+        <br>
+        <h4 align="left">Business Unit/Site Management</h4>
+        <table class="table table-hover">
+            <thead>
+              <tr>
+                <td class="tghead">Damages &amp; Breakages Recoverable(N)</td>
+                <td>{{ id_to_update.bus_damages_recoverable }}</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="tghead">Cash &amp; Stocks Shortages Recoverable(N)</td>
+                <td>{{ id_to_update.bus_cash_recoverable }}</td>
+              </tr>
+              <tr>
+                <td class="tghead">Staff ID Card Collected</td>
+                <td>{{ id_to_update.id_collected }}</td>
+              </tr>
+              <tr>
+                <td class="tghead">Uniforms/PPE Returned</td>
+                <td>{{ id_to_update.uniform_collected }}</td>
+              </tr>
+              <tr>
+                <td class="tghead">HMO Membership Card Collected</td>
+                <td>{{ id_to_update.hmo_collected }}</td>
+              </tr>
+            </tbody>
+        </table>
+        <div class="form-group">
+            <label for="bus_signatory">Business Unit/Site Management Representative:</label>
+            <input type="text" class="form-control" id="bus_signatory" name="bus_signatory" value="{{ id_to_update.bus_signatory }}" readonly/>
+        </div>
+        <br>
+        <br>
+        <h4 align="left">Finance Department</h4>
+        <table class="table table-hover">
+            <thead>
+              <tr>
+                <td class="tghead">Outstanding Loan Balance(N)</td>
+                <td>{{ id_to_update.loan_balance }}</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="tghead">Rent Loan(N)</td>
+                <td>{{ id_to_update.rent_loan }}</td>
+              </tr>
+              <tr>
+                <td class="tghead">Car Maintenance Excess</td>
+                <td>{{ id_to_update.excess_car_main }}</td>
+              </tr>
+              <tr>
+                <td class="tghead">Damages &amp; Breakages Recoverable(N)</td>
+                <td>{{ id_to_update.fin_damages_recoverable }}</td>
+              </tr>
+              <tr>
+                <td class="tghead">Cash &amp; Stocks Shortages Recoverable(N)</td>
+                <td>{{ id_to_update.fin_cash_recoverable }}</td>
+              </tr>
+              <tr>
+                <td class="tghead">Others(N)</td>
+                <td>{{ id_to_update.other_charges }}</td>
+              </tr>
+            </tbody>
+        </table>
+        <div class="form-group">
+            <label for="fin_signatory">Finance Representative:</label>
+            <input type="text" class="form-control" id="fin_signatory" name="fin_signatory" value="{{ id_to_update.fin_signatory }}" readonly/>
+        </div>
+        <br>
+        <br>
+        <h4 align="left">IT Department</h4>
+        <table class="table table-hover">
+            <thead>
+              <tr>
+                <td class="tghead">Laptop Make</td>
+                <td>{{ id_to_update.laptop_make }}</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="tghead">Laptop Serial No</td>
+                <td>{{ id_to_update.laptop_sn }}</td>
+              </tr>
+              <tr>
+                <td class="tghead">Phone Make</td>
+                <td>{{ id_to_update.phone_make }}</td>
+              </tr>
+              <tr>
+                <td class="tghead">Phone Serial No</td>
+                <td>{{ id_to_update.phone_sn }}</td>
+              </tr>
+              <tr>
+                <td class="tghead">IPad/Others Make</td>
+                <td>{{ id_to_update.ipad_make }}</td>
+              </tr>
+              <tr>
+                <td class="tghead">IPad/Others Serial No</td>
+                <td>{{ id_to_update.ipad_sn }}</td>
+              </tr>
+              <tr>
+                <td class="tghead">Debts On CUG Line(N)</td>
+                <td>{{ id_to_update.cug_debt }}</td>
+              </tr>
+            </tbody>
+        </table>
+        <div class="form-group">
+            <label for="it_signatory">IT Representative:</label>
+            <input type="text" class="form-control" id="it_signatory" name="it_signatory" value="{{ id_to_update.it_signatory }}" readonly/>
+        </div>
+        <br>
+        <br>
+        <h4 align="left">Corporate Services Department</h4>
+        <table class="table table-hover">
+            <thead>
+              <tr>
+                <td class="tghead">Company Car Brand</td>
+                <td>{{ id_to_update.car_brand }}</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="tghead">Company Car Reg No</td>
+                <td>{{ id_to_update.car_rn }}</td>
+              </tr>
+              <tr>
+                <td class="tghead">Company Car Return Status</td>
+                <td>{{ id_to_update.car_status }}</td>
+              </tr>
+              <tr>
+                <td class="tghead">Company Accomodation Status</td>
+                <td>{{ id_to_update.accom_status }}</td>
+              </tr>
+              <tr>
+                <td class="tghead">Outstanding Travel Advance</td>
+                <td>{{ id_to_update.travel_advance }}</td>
+              </tr>
+            
+            </tbody>
+        </table>
+        <div class="form-group">
+            <label for="cs_signatory">Corporate Services Representative:</label>
+            <input type="text" class="form-control" id="cs_signatory" name="cs_signatory" value="{{ id_to_update.cs_signatory }}" readonly/>
+        </div>
+        <br>
+        <br>
+        <h4 align="left">HR Final Review</h4>
+        {% if id_to_update.final_approval_status == "Pending" or id_to_update.final_approval_status == "Not Approved"  %}
+        <table class="table table-hover">
+            <thead>
+              <tr>
+                <td class="tghead">Staff ID Card Collected</td>
+                <td>{{ id_to_update.hr_id_collected }}</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="tghead">Uniforms/PPE Returned</td>
+                <td>{{ id_to_update.hr_uniform_collected }}</td>
+              </tr>
+              <tr>
+                <td class="tghead">HMO Membership Card Collected</td>
+                <td>{{ id_to_update.hr_hmo_collected }}</td>
+              </tr>
+              <tr>
+                <td class="tghead">Laptop Collected</td>
+                <td>{{ id_to_update.hr_laptop_collected }}</td>
+              </tr>
+              <tr>
+                <td class="tghead">Phone Collected</td>
+                <td>{{ id_to_update.hr_phone_collected }}</td>
+              </tr>
+              <tr>
+                <td class="tghead">IPad/Others Collected</td>
+                <td>{{ id_to_update.hr_ipad_collected }}</td>
+              </tr>
+              <tr>
+                <td class="tghead">Company Car Returned</td>
+                <td>{{ id_to_update.hr_car_collected }}</td>
+              </tr>
+              <tr>
+                <td class="tghead">Remarks</td>
+                <td>{{ id_to_update.hr_remarks }}</td>
+              </tr>
+              <tr>
+                <td class="tghead">Exit Clearance Final Approval Status</td>
+                <td>{{ id_to_update.final_approval_status }}</td>
+              </tr>
+              
+            
+            </tbody>
+        </table>
+        <br>
+        <br>
+        {% endif %}
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="hr_id_collected">Staff ID Card Collected:</label>
+                    <select id="hr_id_collected" name="hr_id_collected" class="form-select" required>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>   
+                    </select>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="hr_uniform_collected">Uniforms/PPE Returned:</label>
+                    <select id="hr_uniform_collected" name="hr_uniform_collected" class="form-select" required>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                        <option value="Not Applicable">Not Applicable</option>    
+                    </select>
+                </div>    
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="hr_hmo_collected">HMO Membership Card Collected:</label>
+                    <select id="hr_hmo_collected" name="hr_hmo_collected" class="form-select" required>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>   
+                    </select>
+                </div>    
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="hr_laptop_collected">Laptop Collected:</label>
+                    <select id="hr_laptop_collected" name="hr_laptop_collected" class="form-select" required>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option> 
+                        <option value="Not Applicable">Not Applicable</option>  
+                    </select>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="hr_phone_collected">Phone Collected:</label>
+                    <select id="hr_phone_collected" name="hr_phone_collected" class="form-select" required>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option> 
+                        <option value="Not Applicable">Not Applicable</option>  
+                    </select>
+                </div>    
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="hr_ipad_collected">IPad/Others Collected:</label>
+                    <select id="hr_ipad_collected" name="hr_ipad_collected" class="form-select" required>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                        <option value="Not Applicable">Not Applicable</option>   
+                    </select>
+                </div>    
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="hr_car_collected">Company Car Returned:</label>
+                    <select id="hr_car_collected" name="hr_car_collected" class="form-select" required>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                        <option value="Not Applicable">Not Applicable</option>   
+                    </select>
+                </div>    
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="hr_remarks">Remarks:</label>
+            <textarea class="form-control" id="hr_remarks" name="hr_remarks" rows="3"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="final_approval_status">Exit Clearance Final Approval Status:</label>
+            <select id="final_approval_status" name="final_approval_status" class="form-select" required>
+                <option value="Approved">Approved</option>
+                <option value="Pending">Pending</option>  
+                <option value="Not Approved">Not Approved</option> 
+            </select>
+        </div> 
+
+        {% endif %}
+        <br>
+        <button type="submit" class="btn btn-primary">Update</button>
+        <a href="/review" class="btn btn-danger">Cancel</a>
+        <br>
+        <br>
+
+    </form>
+    <br>
+    <br>
+
+  
+    
+
+{% endblock %}

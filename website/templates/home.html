@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+{% block stylesheet %}<link rel="stylesheet" href="{{url_for('static', filename='home.css')}}">{% endblock %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+    <h3>Welcome, {{user.staff_name}}! </h3>
+    {% if user.department == "HR" %}
+    <br>
+    <br>
+    
+    <div class="col">
+        <div class="card" >
+            <img src="{{url_for('static', filename='start.jpg')}}" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">Start Exit Form</h5>
+              <p class="card-text">Start exit form for employee</p>
+              <div class="d-grid gap-2">
+                <a href="/newexitform" class="btn btn-lg btn-primary stretched-link"> Begin</a>
+              </div>
+              
+            </div>
+        </div>
+    </div>
+    
+    <div class="col">
+        <div class="card" >
+            <img src="{{url_for('static', filename='pending.png')}}" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">Pending Exit Forms</h5>
+              <p class="card-text">View pending exit forms</p>
+              <div class="d-grid gap-2">
+                <a href="/review" class="btn btn-lg btn-primary stretched-link">View</a>
+              </div>
+              
+            </div>
+        </div>
+    </div>
+    
+    <div class="col">
+      <div class="card" >
+          <img src="{{url_for('static', filename='completed.jpg')}}" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">Approved Exit Forms</h5>
+            <p class="card-text">View approved exit forms</p>
+            <div class="d-grid gap-2">
+              <a href="/approved" class="btn btn-lg btn-primary stretched-link">View</a>
+            </div>
+            
+          </div>
+      </div>
+    </div>
+    
+    {% else %}
+    <br>
+    <br>
+    <div class="col">
+        <div class="card">
+            <img src="{{url_for('static', filename='start.jpg')}}" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">Start Exit Form</h5>
+              <p class="card-text">Start exit form for employee</p>
+              <div class="d-grid gap-2">
+                <button href="#"  align="center" class="btn btn-lg btn-primary" disabled>Begin</button>
+              </div>
+              
+            </div>
+        </div>
+    </div>
+    
+    <div class="col">
+        <div class="card">
+            <img src="{{url_for('static', filename='pending.png')}}" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">Pending Exit Forms</h5>
+              <p class="card-text">View pending exit forms</p>
+              <div class="d-grid gap-2">
+                <a href="/review" class="btn btn-lg btn-primary stretched-link">View</a>
+              </div>
+              
+            </div>
+        </div>
+    </div>
+
+    <div class="col">
+      <div class="card" >
+          <img src="{{url_for('static', filename='completed.jpg')}}" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">Approved Exit Forms</h5>
+            <p class="card-text">View approved exit forms</p>
+            <div class="d-grid gap-2">
+              <a href="/approved" class="btn btn-lg btn-primary stretched-link">View</a>
+            </div>
+            
+          </div>
+      </div>
+    </div>
+    
+    {% endif %}
+    
+    
+    
+    
+
+{% endblock %}

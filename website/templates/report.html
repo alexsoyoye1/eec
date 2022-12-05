@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/x-icon" href="{{url_for('static', filename='logo.png')}}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{url_for('static', filename='base.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='bootstrap.min.css')}}">
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous"> -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/fontawesome.min.css" integrity="sha384-z4tVnCr80ZcL0iufVdGQSUzNvJsKjEtqYZjiQrrYKlpGow+btDHDfQWkFjoaz/Zr" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{url_for('static', filename='report.css')}}">
+  <title>Report</title>
+  <style>
+      h1,h2,h3,h4, label,p{
+        color: whitesmoke;
+        font-family: 'Courier New', Courier, monospace;
+    }
+    .padding{
+      padding: 10%;
+    }
+
+    .table .tghead{
+        font-weight:bold;text-align:left;
+        color: whitesmoke;
+    }
+
+    .table .tgcharge{
+        font-weight:bold;text-align:center;color: whitesmoke;
+    }
+    .table .tgcharge-total{
+        font-weight:bold;text-align:center;color: red;
+    }
+    .table .tgtotal{background-color:#c0c0c0;font-weight:bold;}
+    td{
+        color: whitesmoke;
+    }
+    table {
+
+      caption-side: bottom;
+      border-collapse: collapse;
+    }
+    .table {
+    --bs-table-bg: transparent;
+    --bs-table-accent-bg: transparent;
+    --bs-table-striped-color: #212529;
+    --bs-table-striped-bg: rgba(0, 0, 0, 0.05);
+    --bs-table-active-color: #212529;
+    --bs-table-active-bg: rgba(0, 0, 0, 0.1);
+    --bs-table-hover-color: #212529;
+    --bs-table-hover-bg: rgba(0, 0, 0, 0.075);
+    width: 100%;
+    margin-bottom: 1rem;
+    color: #212529;
+    vertical-align: top;
+    border-color: black;
+  }
+    .table > :not(caption) > * > * {
+      padding: 0.5rem 0.5rem;
+      background-color: var(--bs-table-bg);
+      border-bottom-width: 1px;
+      box-shadow: inset 0 0 0 9999px var(--bs-table-accent-bg);
+    }
+    .table > tbody {
+      vertical-align: inherit;
+    }
+    .table > thead {
+      vertical-align: bottom;
+    }
+    .table > :not(:last-child) > :last-child > * {
+      border-bottom-color: currentColor;
+    }
+    .table-hover > tbody > tr:hover {
+      --bs-table-accent-bg: var(--bs-table-hover-bg);
+      color: var(--bs-table-hover-color);
+    }
+    .logo-image{
+        width: 20%;
+        height: auto;
+        padding-bottom: 50px;
+        margin: 0;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        position: relative;
+        top: -100px;
+       
+        
+        
+    }
+    .logobox{
+      display: flex;
+      justify-content: center;
+      float: left;
+    }
+  </style>
+</head>
+<body>
+  
+  <div class="container padding">
+    
+    <div>
+      <img src="{{url_for('static', filename='logo.png')}}" class="logo-image" style="float: left;">
+      <h1 align="center">Employee Exit Clearance</h1>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+  
+    
+    <h4 align="left">Employee Details</h4>
+      <table class="table table-hover">
+          <thead>
+            <tr>
+              <td class="tghead">Employee ID</td>
+              <td>{{ id_to_update.employee_id }}</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="tghead">Staff Name</td>
+              <td>{{ id_to_update.staff_name }}</td>
+            </tr>
+            <tr>
+              <td class="tghead">Department</td>
+              <td>{{ id_to_update.department }}</td>
+            </tr>
+            <tr>
+              <td class="tghead">Location</td>
+              <td>{{ id_to_update.location }}</td>
+            </tr>
+            <tr>
+              <td class="tghead">Confirmed Employee</td>
+              <td>{{ id_to_update.confirmed_employee }}</td>
+            </tr>
+            <tr>
+              <td class="tghead">Employment Date</td>
+              <td>{{ id_to_update.employmentdate }}</td>
+            </tr>
+            <tr>
+              <td class="tghead">Required Notice Period</td>
+              <td>{{ id_to_update.req_notice }}</td>
+            </tr>
+            <tr>
+              <td class="tghead">Resignation/Termination Start Date</td>
+              <td>{{ id_to_update.res_received_date }}</td>
+            </tr>
+            <tr>
+              <td class="tghead">Proposed Exit Date</td>
+              <td>{{ id_to_update.prop_exitdate }}</td>
+            </tr>
+            <tr>
+              <td class="tghead">Calculated Exit Date</td>
+              <td>{{ id_to_update.cal_exitdate }}</td>
+            </tr>
+            <tr>
+              <td class="tghead">In Lieu Days</td>
+              <td>{{ id_to_update.days_inlieu }}</td>
+            </tr>
+            <tr>
+              <td class="tghead">Accrued Leave Days</td>
+              <td>{{ id_to_update.leave_days }}</td>
+            </tr>
+            
+          </tbody>
+      </table>
+     
+      <br>
+      <br>
+      <h4 align="left">Business Unit/Site Management</h4>
+      <table class="table table-hover">
+          <thead>
+            <tr>
+              <td class="tghead">Damages &amp; Breakages Recoverable(N)</td>
+              <td>{{ id_to_update.bus_damages_recoverable }}</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="tghead">Cash &amp; Stocks Shortages Recoverable(N)</td>
+              <td>{{ id_to_update.bus_cash_recoverable }}</td>
+            </tr>
+            <tr>
+              <td class="tghead">Staff ID Card Collected</td>
+              <td>{{ id_to_update.id_collected }}</td>
+            </tr>
+            <tr>
+              <td class="tghead">Uniforms/PPE Returned</td>
+              <td>{{ id_to_update.uniform_collected }}</td>
+            </tr>
+            <tr>
+              <td class="tghead">HMO Membership Card Collected</td>
+              <td>{{ id_to_update.hmo_collected }}</td>
+            </tr>
+          </tbody>
+      </table>
+      <div class="form-group">
+          <label for="bus_signatory">Business Unit/Site Management Representative:</label>
+          <input type="text" class="form-control" id="bus_signatory" name="bus_signatory" value="{{ id_to_update.bus_signatory }}" readonly/>
+      </div>
+      <br>
+      <br>
+      <br>
+      <br>
+      <h4 align="left">Finance Department</h4>
+      <table class="table table-hover">
+          <thead>
+            <tr>
+              <td class="tghead">Outstanding Loan Balance(N)</td>
+              <td>{{ id_to_update.loan_balance }}</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="tghead">Rent Loan(N)</td>
+              <td>{{ id_to_update.rent_loan }}</td>
+            </tr>
+            <tr>
+              <td class="tghead">Car Maintenance Excess</td>
+              <td>{{ id_to_update.excess_car_main }}</td>
+            </tr>
+            <tr>
+              <td class="tghead">Damages &amp; Breakages Recoverable(N)</td>
+              <td>{{ id_to_update.fin_damages_recoverable }}</td>
+            </tr>
+            <tr>
+              <td class="tghead">Cash &amp; Stocks Shortages Recoverable(N)</td>
+              <td>{{ id_to_update.fin_cash_recoverable }}</td>
+            </tr>
+            <tr>
+              <td class="tghead">Others(N)</td>
+              <td>{{ id_to_update.other_charges }}</td>
+            </tr>
+          </tbody>
+      </table>
+      <div class="form-group">
+          <label for="fin_signatory">Finance Representative:</label>
+          <input type="text" class="form-control" id="fin_signatory" name="fin_signatory" value="{{ id_to_update.fin_signatory }}" readonly/>
+      </div>
+      <br>
+      <br>
+      <h4 align="left">IT Department</h4>
+      <table class="table table-hover">
+          <thead>
+            <tr>
+              <td class="tghead">Laptop Make</td>
+              <td>{{ id_to_update.laptop_make }}</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="tghead">Laptop Serial No</td>
+              <td>{{ id_to_update.laptop_sn }}</td>
+            </tr>
+            <tr>
+              <td class="tghead">Phone Make</td>
+              <td>{{ id_to_update.phone_make }}</td>
+            </tr>
+            <tr>
+              <td class="tghead">Phone Serial No</td>
+              <td>{{ id_to_update.phone_sn }}</td>
+            </tr>
+            <tr>
+              <td class="tghead">IPad/Others Make</td>
+              <td>{{ id_to_update.ipad_make }}</td>
+            </tr>
+            <tr>
+              <td class="tghead">IPad/Others Serial No</td>
+              <td>{{ id_to_update.ipad_sn }}</td>
+            </tr>
+            <tr>
+              <td class="tghead">Debts On CUG Line(N)</td>
+              <td>{{ id_to_update.cug_debt }}</td>
+            </tr>
+          </tbody>
+      </table>
+      <div class="form-group">
+          <label for="it_signatory">IT Representative:</label>
+          <input type="text" class="form-control" id="it_signatory" name="it_signatory" value="{{ id_to_update.it_signatory }}" readonly/>
+      </div>
+      <br>
+      <br>
+      <h4 align="left">Corporate Services Department</h4>
+      <table class="table table-hover">
+          <thead>
+            <tr>
+              <td class="tghead">Company Car Brand</td>
+              <td>{{ id_to_update.car_brand }}</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="tghead">Company Car Reg No</td>
+              <td>{{ id_to_update.car_rn }}</td>
+            </tr>
+            <tr>
+              <td class="tghead">Company Car Return Status</td>
+              <td>{{ id_to_update.car_status }}</td>
+            </tr>
+            <tr>
+              <td class="tghead">Company Accomodation Status</td>
+              <td>{{ id_to_update.accom_status }}</td>
+            </tr>
+            <tr>
+              <td class="tghead">Outstanding Travel Advance</td>
+              <td>{{ id_to_update.travel_advance }}</td>
+            </tr>
+          
+          </tbody>
+      </table>
+      <div class="form-group">
+          <label for="cs_signatory">Corporate Services Representative:</label>
+          <input type="text" class="form-control" id="cs_signatory" name="cs_signatory" value="{{ id_to_update.cs_signatory }}" readonly/>
+      </div>
+      <br>
+      <br>
+      <h4 align="left">HR Final Review</h4>
+      
+      <table class="table table-hover">
+          <thead>
+            <tr>
+              <td class="tghead">Staff ID Card Collected</td>
+              <td>{{ id_to_update.hr_id_collected }}</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="tghead">Uniforms/PPE Returned</td>
+              <td>{{ id_to_update.hr_uniform_collected }}</td>
+            </tr>
+            <tr>
+              <td class="tghead">HMO Membership Card Collected</td>
+              <td>{{ id_to_update.hr_hmo_collected }}</td>
+            </tr>
+            <tr>
+              <td class="tghead">Laptop Collected</td>
+              <td>{{ id_to_update.hr_laptop_collected }}</td>
+            </tr>
+            <tr>
+              <td class="tghead">Phone Collected</td>
+              <td>{{ id_to_update.hr_phone_collected }}</td>
+            </tr>
+            <tr>
+              <td class="tghead">IPad/Others Collected</td>
+              <td>{{ id_to_update.hr_ipad_collected }}</td>
+            </tr>
+            <tr>
+              <td class="tghead">Company Car Returned</td>
+              <td>{{ id_to_update.hr_car_collected }}</td>
+            </tr>
+            <tr>
+              <td class="tghead">Remarks</td>
+              <td>{{ id_to_update.hr_remarks }}</td>
+            </tr>
+            <tr>
+              <td class="tghead">Exit Clearance Final Approval Status</td>
+              <td>{{ id_to_update.final_approval_status }}</td>
+            </tr>
+            
+          
+          </tbody>
+      </table>
+      <br>
+      <br>
+      
+  <br>
+  <br>
+  </div>
+  
+</body>
+</html>
