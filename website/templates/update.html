@@ -37,7 +37,7 @@
             {% endif %}
         </div>
 
-        {% if (user.department == "Operations" and user.linemanager_status == "Yes") or (user.linemanager_status == "Yes" and user.head_status == "No" and user.department == "HR") or (user.linemanager_status == "Yes" and user.head_status == "Yes" and user.department == "HR")  %}
+        {% if (user.department == "Operations" and user.linemanager_status == "Yes") or (user.linemanager_status == "Yes" and user.head_status == "No") or (user.linemanager_status == "Yes" and user.head_status == "Yes" and user.department == "HR")  %}
         <div class="form-group">
             <label for="bus_damages_recoverable">Damages & Breakages Recoverable(N):</label>
             <input type="number" class="form-control" id="bus_damages_recoverable" name="bus_damages_recoverable"/>
