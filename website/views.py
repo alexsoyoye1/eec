@@ -315,7 +315,7 @@ def download(id):
         "margin-left": "0.1cm",
         "encoding": "UTF-8"
     }
-    config = pdfkit.configuration(wkhtmltopdf='C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe')
+    config = pdfkit.configuration(wkhtmltopdf='/usr/bin/wkhtmltopdf')
     
     html = url_for('views.report',_external=True, id=id)
     #
