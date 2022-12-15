@@ -39,13 +39,13 @@
 
 
                 </tr>
-            {% elif employee.sendto == "Operations" and user.department == "Operations" and employee.sendto_email == user.email %}
+            {% elif (employee.sendto == "Operations" or employee.sendto == "Technical" or employee.sendto == "GZEP" or employee.sendto == "PVL") and (user.department == "Operations" or user.department == "Technical" or user.department == "GZEP" or user.department == "PVL") and employee.sendto_email == user.email %}
                 <tr>
                     <td><a href="{{url_for('views.update', id=employee.id)}}">{{employee.staff_name}}</a> - {{employee.employee_id}}</td>    
 
 
                 </tr>
-            {% elif employee.sendto_email == user.email and employee.sendto == "Operations" and user.head_status == "No" %}
+            {% elif employee.sendto_email == user.email and (employee.sendto == "Operations" or employee.sendto == "Technical" or employee.sendto == "GZEP" or employee.sendto == "PVL") and user.head_status == "No" %}
                 <tr>
                     <td><a href="{{url_for('views.update', id=employee.id)}}">{{employee.staff_name}}</a> - {{employee.employee_id}}</td>    
 

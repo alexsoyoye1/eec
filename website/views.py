@@ -123,7 +123,7 @@ def new():
             db.session.add(new_employee)
             db.session.commit()
             flash('Form Created!', category='success')
-            alert=send_notification(sendto_email)
+            alert=send_notification(sendto_email,new_employee.hr_signatory )
             flash(alert, category='success')
             
             return redirect(url_for('views.home'))
@@ -138,11 +138,122 @@ def review():
     exit_employees = ExitEmployees.query.order_by(ExitEmployees.id)
    
     return render_template("review.html", user=current_user, exit_employees=exit_employees)
+
+@views.route('/admin', methods=['GET', 'POST'])
+@login_required
+def admin():
+    if current_user.department=="IT" and current_user.head_status=="Yes":
+   
+        exit_employees = ExitEmployees.query.order_by(ExitEmployees.id)
+        users=User.query.order_by(User.id)
+    
+        return render_template("admin.html", user=current_user, exit_employees=exit_employees, users=users)
+    else:
+        flash('You do not have access to this page', category='error')
+        return redirect(url_for('views.home'))
+        
+@views.route('/update_users/<int:id>', methods=['GET', 'POST'])
+@login_required
+def updateusers(id):
+
+    id_to_update = User.query.get_or_404(id)
+    if request.method == 'POST':
+        
         
 
+        id_to_update.email = request.form.get('email')
+        id_to_update.username = request.form.get('username')
+        id_to_update.staff_name = request.form.get('staffName')
+        id_to_update.password = generate_password_hash(request.form.get('password1'),method='sha256') 
+        
+        id_to_update.location = request.form.get('location')
+        id_to_update.department = request.form.get('department')
+        id_to_update.linemanager_status=request.form.get('linemanager_status')
+        id_to_update.head_status=request.form.get('head_status')
+
+        try:
+            db.session.commit()
+            flash('Form Updated!', category='success')
+            return redirect(url_for('views.admin'))
+        except:
+            flash('Failed!', category='error')
+            return render_template("update_users.html", user=current_user, id_to_update=id_to_update)
+
+    else:
+        return render_template("update_users.html", user=current_user, id_to_update=id_to_update)
+
+@views.route('/delete_user/<int:id>', methods=['GET', 'POST'])
+@login_required
+def delete_user(id):
+    user = User.query.filter_by(id=id).first()
+    if request.method == 'POST':
+        if user:
+            db.session.delete(user)
+            db.session.commit()
+            flash('User Deleted Successfully', category='error')
+            return redirect('/admin')
+        
+    return render_template('delete_user.html', User=user,user=current_user)
 
 
 
+
+@views.route('/update_employees/<int:id>', methods=['GET', 'POST'])
+@login_required
+def update_employees(id):
+    lm_List =User.query.filter_by(linemanager_status="Yes",head_status = "No")
+    x=[]
+    for item in lm_List:
+        x.append(item.email)
+    lm_list=x
+    i = 0
+    while i < len(lm_list):
+        j = i + 1
+        while j < len(lm_list):
+            if lm_list[i] == lm_list[j]:
+                del lm_list[j]
+            else:
+                j += 1
+        i += 1
+
+    id_to_update = ExitEmployees.query.get_or_404(id)
+    if request.method == 'POST':
+        
+        
+
+        id_to_update.email = request.form.get('email')
+        id_to_update.username = request.form.get('username')
+        id_to_update.staff_name = request.form.get('staffName')
+        id_to_update.password = generate_password_hash(request.form.get('password1'),method='sha256') 
+        
+        id_to_update.location = request.form.get('location')
+        id_to_update.department = request.form.get('department')
+        id_to_update.linemanager_status=request.form.get('linemanager_status')
+        id_to_update.head_status=request.form.get('head_status')
+
+        try:
+            db.session.commit()
+            flash('Form Updated!', category='success')
+            return redirect(url_for('views.admin'))
+        except:
+            flash('Failed!', category='error')
+            return render_template("update_employees.html", user=current_user, id_to_update=id_to_update,lm_list=lm_list)
+
+    else:
+        return render_template("update_employees.html", user=current_user, id_to_update=id_to_update,lm_list=lm_list)
+
+@views.route('/delete_employee/<int:id>', methods=['GET', 'POST'])
+@login_required
+def delete_employee(id):
+    employee = ExitEmployees.query.filter_by(id=id).first()
+    if request.method == 'POST':
+        if employee:
+            db.session.delete(employee)
+            db.session.commit()
+            flash('Employee Exit form Deleted Successfully', category='error')
+            return redirect('/admin')
+        
+    return render_template('delete_employee.html', employee=employee,user=current_user)
 
 
 @views.route('/update/<int:id>', methods=['GET', 'POST'])
@@ -164,7 +275,7 @@ def update(id):
         id_to_update.sendto = 'Finance'
 
         #Add Head of Finance Department
-        alert=send_notification("stephen.adisa@pebnic.com")
+        alert=send_notification("stephen.adisa@pebnic.com", id_to_update.hr_signatory)
         flash(alert, category='success')
 
         id_to_update.sendto_email = ""
@@ -178,8 +289,7 @@ def update(id):
             return render_template("update.html", user=current_user, id_to_update=id_to_update,exit_employees=exit_employees)
 
     elif request.method == 'POST' and current_user.department == 'Finance':
-        id_to_update.loan_balance = request.form.get('loan_balance')
-        id_to_update.rent_loan = request.form.get('rent_loan')
+        
         id_to_update.excess_car_main = request.form.get('excess_car_main')
         id_to_update.fin_damages_recoverable = request.form.get('fin_damages_recoverable')
         id_to_update.fin_cash_recoverable = request.form.get('fin_cash_recoverable')
@@ -191,7 +301,7 @@ def update(id):
         
         id_to_update.sendto = 'IT'
 
-        alert=send_notification("david.mukoro@pebnic.com")
+        alert=send_notification("david.mukoro@pebnic.com", id_to_update.hr_signatory)
         flash(alert, category='success')
 
 
@@ -215,7 +325,7 @@ def update(id):
         id_to_update.it_signatory = current_user.staff_name
 
         #Add Head of CS Department
-        alert=send_notification("damilola.toriola@pebnic.com")
+        alert=send_notification("damilola.toriola@pebnic.com", id_to_update.hr_signatory)
         flash(alert, category='success')
         id_to_update.sendto = 'CS'
 
@@ -228,6 +338,8 @@ def update(id):
             return render_template("update.html", user=current_user, id_to_update=id_to_update,exit_employees=exit_employees)
     
     elif request.method == 'POST' and current_user.department == 'CS':
+        id_to_update.loan_balance = request.form.get('loan_balance')
+        id_to_update.rent_loan = request.form.get('rent_loan')
         id_to_update.car_brand = request.form.get('car_brand')
         id_to_update.car_rn = request.form.get('car_rn')
         id_to_update.car_status = request.form.get('car_status')
@@ -240,7 +352,7 @@ def update(id):
         
 
         # Send Email to HR Signatory
-        alert=send_notification(id_to_update.hr_signatory_email)
+        alert=send_notification(id_to_update.hr_signatory_email,id_to_update.hr_signatory)
         flash(alert, category='success')
         id_to_update.sendto = 'HR'
         
@@ -336,12 +448,15 @@ def download(id):
     return response
         
 
-def send_notification(recipient):
+def send_notification(recipient,initiator):
 
+        user= ExitEmployees.query.filter_by(hr_signatory=initiator).first()
+
+        initiator=initiator
         sender="noreply@pebnic.com"
         recipient=recipient
         password="Officernoreply1"
-        message = "This is an email ALERT, \n You have an EMPLOYEE EXIT CLEARANCE form pending for your review."
+        message = "This is an email notification, \n You have an EMPLOYEE EXIT CLEARANCE form pending for your review.\n This form was initiated by: "+ initiator
         
 
         server= smtplib.SMTP("mail.pebnic.com",587)
@@ -351,9 +466,10 @@ def send_notification(recipient):
         msg = MIMEMultipart()
         msg['From'] = sender
         msg['To'] = recipient
+        msg['Cc'] = str(user.hr_signatory_email)
         msg['Subject'] = 'Exit Clearance System Notification' 
 
-        msg.attach(MIMEText(message, 'plain'))
+        msg.attach(MIMEText(message, 'plain', 'utf-8'))
 
 
 

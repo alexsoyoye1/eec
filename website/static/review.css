@@ -23,3 +23,12 @@ h1,h2,h3,h4, label,p{
 td{
     color: whitesmoke;
 }
+hr {
+    border: 0;
+    clear:both;
+    display:block;
+    width: 96%;               
+    background:#ffffff;
+    
+    height: 10px;
+  }

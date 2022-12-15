@@ -1,0 +1,227 @@
+{% extends "base.html" %}
+{% block stylesheet %}
+<link rel="stylesheet" href="{{url_for('static', filename='new.css')}}">
+
+{% endblock %}
+
+{% block title %}Admin Controls{% endblock %}
+
+{% block content %}
+
+
+    <h3>Hello, {{user.staff_name}}! </h3>
+    <br>
+    <br>
+    <div class="row">
+        <div class="col">
+            <div class="card" style="width: 30vw;" >
+                <img src="{{url_for('static', filename='username.jpg')}}" class="card-img-top" alt="...">
+                <div class="card-body">
+                <h5 class="card-title" align="center">Users Database</h5>
+                
+                <div class="d-grid gap-2">
+                    <a id="userbtn"  href="javascript:showusername()" class="btn btn-lg btn-primary stretched-link"> View</a>
+                </div>
+                
+                </div>
+            </div>
+        </div>
+    
+        <div class="col">
+            <div class="card"  style="width: 30vw;">
+                <img src="{{url_for('static', filename='group.png')}}" class="card-img-top" alt="...">
+                <div class="card-body">
+                <h5 class="card-title" align="center">Exit Employees Database</h5>
+                
+                <div class="d-grid gap-2">
+                    <a id="employeebtn"  href="javascript:showpassword()" class="btn btn-lg btn-primary stretched-link"> View</a>
+                </div>
+                
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row" id="username" style="display: none;">
+        <a href="/sign-up" class="btn btn-primary btn-lg">Add New User</a>
+        <input type="text" id="user_search" class="form-control" onkeyup="search_users()" placeholder="Search for names.." title="Type in a name">
+       
+        <table class="table table-hover " id="users_table">
+            <thead>
+                <tr>
+                  <th class="tghead">User ID</th>
+                  <th class="tghead">Username</th>
+                  <th class="tghead">Name</th>
+                  <th class="tghead">Actions</th>
+                  
+                </tr>
+              </thead>
+            {% for user in users %}
+                
+                    <tr>
+                        <td>{{user.id}}</td>
+                        <td><a href="/update_users/{{user.id}}">{{user.username}}</a></td> 
+                        <td>{{user.staff_name}}</td>
+                        <td>
+                            <span style="font-size: 24px;color:green;">
+                                <a class="btn btn-primary" href="/update_users/{{user.id}}">Update</a>
+                            </span>
+                            
+                            <span style="font-size: 24px;color:red;">
+                                <a class="btn btn-danger" href="/delete_user/{{user.id}}">Delete</a>
+                            </span>
+                        </td>  
+                           
+    
+    
+                    </tr>
+               
+    
+    
+            {% endfor %}   
+        
+        </table> 
+    
+    </div>
+
+    <div class="row" id="password" style="display: none;">
+        <input type="text" id="employee_search" class="form-control" onkeyup="search_employee()" placeholder="Search for Employees Names.." title="Type in a name">
+       
+        <table class="table table-hover " id="employee_table" >
+            <thead>
+                <tr>
+                  <th class="tghead">Employee ID</th>
+                 
+                  <th class="tghead">Employee Name</th>
+                  <th class="tghead">Location</th>
+                  <th class="tghead">Actions</th>
+                  
+                  
+                </tr>
+              </thead>
+            {% for employee in exit_employees %}
+                
+                    <tr>
+                        <td><a href="/update_employees/{{employee.id}}">{{employee.employee_id}}</a></td>
+                        <td>{{employee.staff_name}}</td>
+                        <td>{{employee.location}}</td>
+                        <td>
+                            <span style="font-size: 24px;color:green;">
+                                <a class="btn btn-primary" href="/update_employees/{{employee.id}}">Update</a>
+                            </span>
+                            
+                            <span style="font-size: 24px;color:red;">
+                                <a class="btn btn-danger" href="/delete_employee/{{employee.id}}">Delete</a>
+                            </span>
+                        </td>    
+                        
+    
+    
+                    </tr>
+               
+    
+    
+            {% endfor %}   
+        
+        </table> 
+    
+
+    </div>
+    
+
+{% block Javascript %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+    function showusername() {
+    var x = document.getElementById("username");
+    if (x.style.display === "none") {
+        x.style.display = "block";
+        document.getElementById("password").style.display = "none";
+        setTimeout(document.getElementById("username").scrollIntoView(),2000);
+       
+    } else {
+        x.style.display = "none";
+    }
+    }
+    function showpassword() {
+    var x = document.getElementById("password");
+    if (x.style.display === "none") {
+        x.style.display = "block";
+        document.getElementById("username").style.display = "none";
+        setTimeout(document.getElementById("password").scrollIntoView(),2000);
+       
+    } else {
+        x.style.display = "none";
+    }
+    }
+    function search_users() {
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("user_search");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("users_table");
+    tr = table.getElementsByTagName("tr");
+    for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[2];
+        if (td) {
+        txtValue = td.textContent || td.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
+        } else {
+            tr[i].style.display = "none";
+        }
+        }       
+    }
+    }
+
+    function search_employee() {
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("employee_search");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("employee_table");
+    tr = table.getElementsByTagName("tr");
+    for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td")[1];
+        if (td) {
+        txtValue = td.textContent || td.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
+        } else {
+            tr[i].style.display = "none";
+        }
+        }       
+    }
+    }
+</script>
+<script>
+$(document).ready(function(){
+  // Add smooth scrolling to all links
+  $("button").on('click', function(event) {
+
+    // Make sure this.hash has a value before overriding default behavior
+    if (this.hash !== "") {
+      // Prevent default anchor click behavior
+      event.preventDefault();
+
+      // Store hash
+      var hash = this.hash;
+
+      // Using jQuery's animate() method to add smooth page scroll
+      // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
+      $('html, body').animate({
+        scrollTop: $(hash).offset().top
+      }, 800, function(){
+
+        // Add hash (#) to URL when done scrolling (default click behavior)
+        window.location.hash = hash;
+      });
+    } // End if
+  });
+});
+</script>
+
+{% endblock %}
+    
+
+{% endblock %}
+

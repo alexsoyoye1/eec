@@ -37,7 +37,7 @@
             {% endif %}
         </div>
 
-        {% if (user.department == "Operations" and user.linemanager_status == "Yes") or (user.linemanager_status == "Yes" and user.head_status == "No") or (user.linemanager_status == "Yes" and user.head_status == "Yes" and user.department == "HR")  %}
+        {% if ((user.department == "Operations" or user.department == "Technical" or user.department == "GZEP" or user.department == "PVL") and user.linemanager_status == "Yes") or (user.linemanager_status == "Yes" and user.head_status == "No") or (user.linemanager_status == "Yes" and user.head_status == "Yes" and user.department == "HR")  %}
         <div class="form-group">
             <label for="bus_damages_recoverable">Damages & Breakages Recoverable(N):</label>
             <input type="number" class="form-control" id="bus_damages_recoverable" name="bus_damages_recoverable"/>
@@ -51,6 +51,7 @@
                 <div class="form-group">
                     <label for="id_collected">Staff ID Card Collected:</label>
                     <select id="id_collected" name="id_collected" class="form-select" required>
+                        <option selected disabled> </option>
                         <option value="Yes">Yes</option>
                         <option value="No">No</option>   
                     </select>
@@ -60,6 +61,7 @@
                 <div class="form-group">
                     <label for="uniform_collected">Uniforms/PPE Returned:</label>
                     <select id="uniform_collected" name="uniform_collected" class="form-select" required>
+                        <option selected disabled> </option>
                         <option value="Yes">Yes</option>
                         <option value="No">No</option>
                         <option value="Not Applicable">Not Applicable</option>    
@@ -70,6 +72,7 @@
                 <div class="form-group">
                     <label for="hmo_collected">HMO Membership Card Collected:</label>
                     <select id="hmo_collected" name="hmo_collected" class="form-select" required>
+                        <option selected disabled> </option>
                         <option value="Yes">Yes</option>
                         <option value="No">No</option>   
                     </select>
@@ -78,20 +81,7 @@
         </div>
         
         {% elif user.department == "Finance" and user.head_status == "Yes" %}
-        <div class="row">
-            <div class="col">
-                <div class="form-group">
-                    <label for="loan_balance">Outstanding Loan Balance(N):</label>
-                    <input type="number" class="form-control" id="loan_balance" name="loan_balance" />
-                </div>
-            </div>
-            <div class="col">
-                <div class="form-group">
-                    <label for="rent_loan">Rent Loan(N):</label>
-                    <input type="number" class="form-control" id="rent_loan" name="rent_loan" />
-                </div>
-            </div>
-        </div>
+        
         <div class="form-group">
             <label for="excess_car_main">Car Maintenance Excess(N):</label>
             <input type="number" class="form-control" id="excess_car_main" name="excess_car_main" />
@@ -167,6 +157,20 @@
         <div class="row">
             <div class="col">
                 <div class="form-group">
+                    <label for="loan_balance">Outstanding Loan Balance(N):</label>
+                    <input type="number" class="form-control" id="loan_balance" name="loan_balance" />
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="rent_loan">Rent Loan(N):</label>
+                    <input type="number" class="form-control" id="rent_loan" name="rent_loan" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
                     <label for="car_brand">Company Car Brand:</label>
                     <input type="text" class="form-control" id="car_brand" name="car_brand" />
                 </div>
@@ -183,6 +187,7 @@
                 <div class="form-group">
                     <label for="car_status">Company Car Return Checklist:</label>
                     <select id="car_status" name="car_status" class="form-select" required>
+                        <option selected disabled> </option>
                         <option value="Ok">Ok</option>
                         <option value="Not Ok">Not Ok</option> 
                         <option value="Not Applicable">Not Applicable</option>  
@@ -193,6 +198,7 @@
                 <div class="form-group">
                     <label for="accom_status">Company Accomodation Checklist:</label>
                     <select id="accom_status" name="accom_status" class="form-select" required>
+                        <option selected disabled> </option>
                         <option value="Ok">Ok</option>
                         <option value="Not Ok">Not Ok</option> 
                         <option value="Not Applicable">Not Applicable</option>  
@@ -314,20 +320,12 @@
         <h4 align="left">Finance Department</h4>
         <table class="table table-hover">
             <thead>
-              <tr>
-                <td class="tghead">Outstanding Loan Balance(N)</td>
-                <td>{{ id_to_update.loan_balance }}</td>
-              </tr>
+                <tr>
+                    <td class="tghead">Car Maintenance Excess</td>
+                    <td>{{ id_to_update.excess_car_main }}</td>
+                </tr>
             </thead>
             <tbody>
-              <tr>
-                <td class="tghead">Rent Loan(N)</td>
-                <td>{{ id_to_update.rent_loan }}</td>
-              </tr>
-              <tr>
-                <td class="tghead">Car Maintenance Excess</td>
-                <td>{{ id_to_update.excess_car_main }}</td>
-              </tr>
               <tr>
                 <td class="tghead">Damages &amp; Breakages Recoverable(N)</td>
                 <td>{{ id_to_update.fin_damages_recoverable }}</td>
@@ -392,12 +390,21 @@
         <h4 align="left">Corporate Services Department</h4>
         <table class="table table-hover">
             <thead>
-              <tr>
-                <td class="tghead">Company Car Brand</td>
-                <td>{{ id_to_update.car_brand }}</td>
-              </tr>
+                <tr>
+                    <td class="tghead">Outstanding Loan Balance(N)</td>
+                    <td>{{ id_to_update.loan_balance }}</td>
+                </tr>
+                
             </thead>
             <tbody>
+                <tr>
+                    <td class="tghead">Rent Loan(N)</td>
+                    <td>{{ id_to_update.rent_loan }}</td>
+                </tr>
+                <tr>
+                    <td class="tghead">Company Car Brand</td>
+                    <td>{{ id_to_update.car_brand }}</td>
+                </tr>
               <tr>
                 <td class="tghead">Company Car Reg No</td>
                 <td>{{ id_to_update.car_rn }}</td>
@@ -477,6 +484,7 @@
                 <div class="form-group">
                     <label for="hr_id_collected">Staff ID Card Collected:</label>
                     <select id="hr_id_collected" name="hr_id_collected" class="form-select" required>
+                        <option selected disabled> </option>
                         <option value="Yes">Yes</option>
                         <option value="No">No</option>   
                     </select>
@@ -486,6 +494,7 @@
                 <div class="form-group">
                     <label for="hr_uniform_collected">Uniforms/PPE Returned:</label>
                     <select id="hr_uniform_collected" name="hr_uniform_collected" class="form-select" required>
+                        <option selected disabled> </option>
                         <option value="Yes">Yes</option>
                         <option value="No">No</option>
                         <option value="Not Applicable">Not Applicable</option>    
@@ -496,6 +505,7 @@
                 <div class="form-group">
                     <label for="hr_hmo_collected">HMO Membership Card Collected:</label>
                     <select id="hr_hmo_collected" name="hr_hmo_collected" class="form-select" required>
+                        <option selected disabled> </option>
                         <option value="Yes">Yes</option>
                         <option value="No">No</option>   
                     </select>
@@ -507,6 +517,7 @@
                 <div class="form-group">
                     <label for="hr_laptop_collected">Laptop Collected:</label>
                     <select id="hr_laptop_collected" name="hr_laptop_collected" class="form-select" required>
+                        <option selected disabled> </option>
                         <option value="Yes">Yes</option>
                         <option value="No">No</option> 
                         <option value="Not Applicable">Not Applicable</option>  
@@ -517,6 +528,7 @@
                 <div class="form-group">
                     <label for="hr_phone_collected">Phone Collected:</label>
                     <select id="hr_phone_collected" name="hr_phone_collected" class="form-select" required>
+                        <option selected disabled> </option>
                         <option value="Yes">Yes</option>
                         <option value="No">No</option> 
                         <option value="Not Applicable">Not Applicable</option>  
@@ -527,6 +539,7 @@
                 <div class="form-group">
                     <label for="hr_ipad_collected">IPad/Others Collected:</label>
                     <select id="hr_ipad_collected" name="hr_ipad_collected" class="form-select" required>
+                        <option selected disabled> </option>
                         <option value="Yes">Yes</option>
                         <option value="No">No</option>
                         <option value="Not Applicable">Not Applicable</option>   
@@ -537,6 +550,7 @@
                 <div class="form-group">
                     <label for="hr_car_collected">Company Car Returned:</label>
                     <select id="hr_car_collected" name="hr_car_collected" class="form-select" required>
+                        <option selected disabled> </option>
                         <option value="Yes">Yes</option>
                         <option value="No">No</option>
                         <option value="Not Applicable">Not Applicable</option>   
@@ -551,6 +565,7 @@
         <div class="form-group">
             <label for="final_approval_status">Exit Clearance Final Approval Status:</label>
             <select id="final_approval_status" name="final_approval_status" class="form-select" required>
+                <option selected disabled> </option>
                 <option value="Approved">Approved</option>
                 <option value="Pending">Pending</option>  
                 <option value="Not Approved">Not Approved</option> 

@@ -21,4 +21,21 @@ p{
     transform: scale(1.1);
   }
 
+  .table .tghead{
+    font-weight:bold;text-align:left;
+    color: whitesmoke;
+}
+
+.table .tgcharge{
+    font-weight:bold;text-align:center;color: whitesmoke;
+}
+.table .tgcharge-total{
+    font-weight:bold;text-align:center;color: red;
+}
+.table .tgtotal{background-color:#c0c0c0;font-weight:bold;}
+td{
+    color: whitesmoke;
+}
+
+
 

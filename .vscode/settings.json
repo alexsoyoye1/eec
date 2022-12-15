@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/687421d0-7dd0-4157-b95c-bee289472a42/AppServices/subscriptions/687421d0-7dd0-4157-b95c-bee289472a42/resourceGroups/PebnicVentures/providers/Microsoft.Web/sites/pebnic",
+    "appService.deploySubpath": "."
+}

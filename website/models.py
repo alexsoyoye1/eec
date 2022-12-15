@@ -38,8 +38,7 @@ class ExitEmployees(db.Model):
     bus_signatory = db.Column(db.String(150))
 
     #Finance Department Fields
-    loan_balance = db.Column(db.Integer)
-    rent_loan = db.Column(db.Integer)
+    
     excess_car_main = db.Column(db.Integer)
     fin_damages_recoverable = db.Column(db.Integer)
     fin_cash_recoverable = db.Column(db.Integer)
@@ -57,6 +56,8 @@ class ExitEmployees(db.Model):
     it_signatory = db.Column(db.String(150))
 
     #CS Department Fields
+    loan_balance = db.Column(db.Integer)
+    rent_loan = db.Column(db.Integer)
     car_brand = db.Column(db.String(150))
     car_rn = db.Column(db.String(150))
     car_status = db.Column(db.String(150))

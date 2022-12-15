@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block stylesheet %}
+<link rel="stylesheet" href="{{url_for('static', filename='new.css')}}">
+
+{% endblock %}
+
+{% block title %}Delete Employee Exit form{% endblock %}
+
+{% block content %}
+<div class="container">
+    <form action="" method="POST">
+        <h4>Would you like to delete this Employee Exit form: {{employee.staff_name}} </h4>
+        <input type="submit" value="Yes" class="btn btn-danger">
+        <a href="/admin" class="btn btn-primary">Cancel</a>
+    </form>
+</div>
+
+
+    
+
+
+    
+
+{% endblock %}
+

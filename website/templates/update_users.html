@@ -1,30 +1,27 @@
 {% extends "base.html" %}
 {% block stylesheet %}<link rel="stylesheet" href="{{url_for('static', filename='background.css')}}">{% endblock %}
-{% block title %}Sign Up{% endblock %}
+{% block title %}User Update{% endblock %}
 
 {% block content %}
 <form method="POST">
-    <h3 align="center">Sign Up</h3>
+    <h3 align="center">Update User: {{id_to_update.staff_name}}</h3>
     <div class="form-group">
         <label for="email">Email Address:</label>
-        <input type="email" class="form-control" id="email" name="email" placeholder="Enter Email"/>
+        <input type="email" class="form-control" id="email" name="email" value="{{id_to_update.email}}"/>
     </div>
     <div class="form-group">
         <label for="username">Username:</label>
-        <input type="text" class="form-control" id="username" name="username" placeholder="Enter Username"/>
+        <input type="text" class="form-control" id="username" name="username" value="{{id_to_update.username}}"/>
     </div>
     <div class="form-group">
         <label for="staffName">Staff Name:</label>
-        <input type="text" class="form-control" id="staffName" name="staffName" placeholder="First Name"/>
+        <input type="text" class="form-control" id="staffName" name="staffName" value="{{id_to_update.staff_name}}"/>
     </div>
     <div class="form-group">
         <label for="password1">Password:</label>
         <input type="password" class="form-control" id="password1" name="password1" placeholder="Password"/>
     </div>
-    <div class="form-group">
-        <label for="password2">Password(Confirm):</label>
-        <input type="password" class="form-control" id="password2" name="password2" placeholder="Confirm Password"/>
-    </div>
+    
     <br>
     <div class="form-group">
         <label for="department">Department:</label>
@@ -40,7 +37,7 @@
    
     <div class="form-group">
         <label for="location">Location:</label>
-        <input type="text" class="form-control" id="location" name="location" placeholder="Location"/>
+        <input type="text" class="form-control" id="location" name="location" value="{{id_to_update.location}}"/>
     </div>
     <div class="form-group">
         <label for="linemanager_status">Are You a Line Manager:</label>
@@ -61,7 +58,8 @@
     
     <br>
     
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-primary">Update</button>
+    <a href="/admin" class="btn btn-danger">Cancel</a>
 
 </form>
 {% endblock %}
