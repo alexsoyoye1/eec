@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block stylesheet %}<link rel="stylesheet" href="{{url_for('static', filename='review.css')}}">{% endblock %}
+{% block title %}Terminal Benefits{% endblock %}
+
+{% block content %}
+
+    <br>
+    <h3 align="center">Review Exit Forms</h3>
+    <br>
+    <table class="table table-hover ">
+        <thead>
+            <tr>
+              <th class="tghead">Employees Pending Terminal Benefits Calculation</th>
+              
+            </tr>
+          </thead>
+        {% for employee in exit_employees %}
+            <tr>
+                <td><a href="{{url_for('views.calculate', id=employee.id)}}">{{employee.staff_name}}</a> - {{employee.employee_id}}</td>    
+
+
+            </tr>
+
+
+        {% endfor %}   
+    
+    </table> 
+
+    <form method="POST">
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="employee_id">Employee ID:</label>
+                    <input type="text" class="form-control" id="employee_id" name="employee_id"  disabled/>
+                </div>
+
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="staff_name">Staff Name:</label>
+                    <input type="text" class="form-control" id="staff_name" name="staff_name"  disabled/>
+                </div>
+            </div>
+        </div>
+        
+        <br>
+        <button type="submit" class="btn btn-primary" disabled>Update</button>
+        <br>
+        <br>
+
+    </form>
+     
+
+{% endblock %}

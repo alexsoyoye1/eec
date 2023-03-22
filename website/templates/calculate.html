@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+{% block stylesheet %}<link rel="stylesheet" href="{{url_for('static', filename='review.css')}}">{% endblock %}
+{% block title %}Review Exit Form{% endblock %}
+
+{% block content %}
+    <br>
+    <h3 align="center">Calculate Teminal Benefits</h3>
+    <br>
+    <form action="/calculate/{{ id_to_append.id }}" method="POST">
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="employee_id">Employee ID:</label>
+                    <input type="text" class="form-control" id="employee_id" name="employee_id" value="{{ id_to_append.employee_id }}" readonly/>
+                </div>
+
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="staff_name">Staff Name:</label>
+                    <input type="text" class="form-control" id="staff_name" name="staff_name" value="{{ id_to_append.staff_name }}" readonly/>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="form-group">
+                <label for="monthly_netpay">Standard Monthly Salary(N):</label>
+                <input type="number" step="0.01" class="form-control" id="monthly_netpay" name="monthly_netpay" required />
+            </div>
+        </div>
+
+        
+
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="days_inlieu">Days in lieu Payable:</label>
+                    <input type="number" class="form-control" id="days_inlieu" name="days_inlieu" required/>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="hold_salary">Salary on Hold/Payable:</label>
+                    <input type="number" step="0.01" class="form-control" id="hold_salary" name="hold_salary" required/>
+                </div>
+            </div>
+        </div>
+        <br>
+
+        <p><strong>Accrued Pensions</strong></p>
+
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="pension_accrued">Total Pension Accrued(N):</label>
+                    <input type="number" step="0.01" class="form-control" id="pension_accrued" name="pension_accrued" required/>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="pension_paid">Total Pension Paid(N):</label>
+                    <input type="number" step="0.01" class="form-control" id="pension_paid" name="pension_paid" required/>
+                </div>
+            </div>
+        </div>
+        <br>
+
+        <p><strong>Accrued Leave Allowance</strong></p>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="leave_allowance_accrued">Total Allowance Accrued(N):</label>
+                    <input type="number" step="0.01" class="form-control" id="leave_allowance_accrued" name="leave_allowance_accrued" required/>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="leave_allowance_paid">Total Allowance Paid(N):</label>
+                    <input type="number" step="0.01" class="form-control" id="leave_allowance_paid" name="leave_allowance_paid" required/>
+                </div>
+            </div>
+        </div>
+        <br>
+        <p><strong>Deductions</strong></p>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="breakages_damages">Breakages, Damages & Other Deductions:</label>
+                    <input type="number" step="0.01" class="form-control" id="breakages_damages" name="breakages_damages" required/>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="days_inlieu_deducted">Days of Lieu Deducted/Other Days Not Worked:</label>
+                    <input type="number" class="form-control" id="days_inlieu_deducted" name="days_inlieu_deducted" required/>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="form-group">
+                <label for="overpayment">Overpayment:</label>
+                <input type="number" step="0.01" class="form-control" id="overpayment" name="overpayment" required/>
+            </div>
+        </div>
+        
+        
+        <br>
+        <button type="submit" class="btn btn-primary">Calculate</button>
+        <a href="/terminal-review" class="btn btn-danger">Cancel</a>
+        <br>
+        <br>
+
+    </form>
+    <br>
+    <br>
+
+  
+    
+
+{% endblock %}

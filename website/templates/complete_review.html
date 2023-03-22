@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block stylesheet %}<link rel="stylesheet" href="{{url_for('static', filename='review.css')}}">{% endblock %}
+{% block title %}Completed Exit Forms{% endblock %}
+
+{% block content %}
+
+    <br>
+    <h3 align="center">Review Exit Forms</h3>
+    <br>
+    <table class="table table-hover ">
+        <thead>
+            <tr>
+              <th class="tghead">Completed Employees Exit Forms</th>
+              
+            </tr>
+          </thead>
+        {% for employee in exit_employees %}
+            <tr>
+                <td>{{employee.staff_name}} - <a class="btn btn-lg btn-primary" href="{{url_for('views.statement', id=employee.employee_id)}}">View Report</a></td>    
+
+
+            </tr>
+
+
+
+        {% endfor %}   
+    
+    </table> 
+
+    
+     
+
+{% endblock %}

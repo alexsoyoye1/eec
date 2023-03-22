@@ -95,7 +95,37 @@
           </div>
       </div>
     </div>
-    
+
+    {% if user.department == "CS" %}
+      <div class="col">
+        <div class="card" >
+            <img src="{{url_for('static', filename='calculate.jpg')}}" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">Terminal Benefits</h5>
+              <p class="card-text">Calculate benefits for forms</p>
+              <div class="d-grid gap-2">
+                <a href="/terminal-review" class="btn btn-lg btn-primary stretched-link">View</a>
+              </div>
+              
+            </div>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="card" >
+            <img src="{{url_for('static', filename='report.jpg')}}" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">Completed Forms</h5>
+              <p class="card-text">View Completed Exit Forms</p>
+              <div class="d-grid gap-2">
+                <a href="/complete-review" class="btn btn-lg btn-primary stretched-link">View</a>
+              </div>
+              
+            </div>
+        </div>
+      </div>
+
+    {% endif %}
     {% endif %}
     
     

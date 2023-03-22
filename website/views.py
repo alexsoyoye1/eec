@@ -1,6 +1,6 @@
 from flask import Blueprint, flash, render_template, request, flash, redirect, url_for, make_response
 from flask_login import login_required, current_user
-from website.models import ExitEmployees, User
+from website.models import ExitEmployees, User, TerminalBenefit
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from . import db
@@ -27,7 +27,6 @@ def settings():
         if  "form1" in request.form:
             username = request.form.get('username')
             newusername = request.form.get('newusername')
-           
             user = User.query.filter_by(username=current_user.username).first()
             if user:
                 if current_user.username == username:
@@ -58,18 +57,11 @@ def settings():
                     flash('Incorrect Password', category='error')
 
 
-  
-
-    
-        
-
-
-
     
 
     return render_template("settings.html", user=current_user)
 
-@views.route('/newexitform', methods=['GET', 'POST'])
+@views.route('/newexitform', methods=['GET', 'POST'])    
 @login_required
 def new():
     lm_List =User.query.filter_by(linemanager_status="Yes",head_status = "No")
@@ -133,12 +125,91 @@ def new():
 
 @views.route('/review', methods=['GET', 'POST'])
 @login_required
-def review():
+def review():                                                                                                                                                                                                                                                                                                                                 
    
     exit_employees = ExitEmployees.query.order_by(ExitEmployees.id)
    
     return render_template("review.html", user=current_user, exit_employees=exit_employees)
 
+@views.route('/complete-review', methods=['GET', 'POST'])
+@login_required
+def c_review():                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+   
+    exit_employees = ExitEmployees.query.filter_by(final_approval_status="Completed")
+   
+    return render_template("complete_review.html", user=current_user, exit_employees=exit_employees)
+
+@views.route('/terminal-review', methods=['GET', 'POST'])
+@login_required
+def terminal():
+   
+    exit_employees = ExitEmployees.query.filter_by(final_approval_status="Approved")
+   
+    return render_template("terminal_review.html", user=current_user, exit_employees=exit_employees)
+
+
+@views.route('/calculate/<int:id>', methods=['GET', 'POST'])
+@login_required
+def calculate(id):
+    
+    id_to_append = ExitEmployees.query.get_or_404(id)
+    if request.method == 'POST':
+        id_to_append.final_approval_status="Completed"
+        employee_id = id_to_append.employee_id
+        staff_name = id_to_append.staff_name
+        monthly_netpay = float(request.form.get('monthly_netpay'))
+        days_inlieu = int(request.form.get('days_inlieu'))
+        payment_inlieu = (monthly_netpay/(365/12))*days_inlieu 
+        hold_salary = float(request.form.get('hold_salary'))
+        pension_accrued = float(request.form.get('pension_accrued'))
+        pension_paid = float(request.form.get('pension_paid'))
+        outstanding_pension = pension_accrued - pension_paid
+        leave_allowance_accrued = float(request.form.get('leave_allowance_accrued'))
+        leave_allowance_paid = float(request.form.get('leave_allowance_paid'))
+        leave_allowance = leave_allowance_accrued - leave_allowance_paid
+        total_allowance = payment_inlieu + hold_salary + outstanding_pension + leave_allowance
+        breakages_damages = float(request.form.get('breakages_damages'))
+        days_inlieu_deducted = int(request.form.get('days_inlieu_deducted'))
+        salary_inlieu = (monthly_netpay/(365/12))*days_inlieu_deducted
+        overpayment = float(request.form.get('overpayment'))
+        total_deduction = breakages_damages + salary_inlieu + overpayment
+        entitlement = total_allowance - total_deduction
+        if (total_allowance-total_deduction)>=outstanding_pension:
+            amount_payable = total_allowance - total_deduction
+        else:
+            amount_payable = outstanding_pension
+
+
+        pfa = outstanding_pension - overpayment
+
+        if (entitlement-pfa)<=0:
+            salary_account = 0
+        else:
+            salary_account = entitlement-pfa
+
+        benefit = TerminalBenefit.query.filter_by(employee_id=employee_id).first()
+        if benefit:
+            flash('Employee exit form already exists', category='error')
+        
+        else:
+            newbenefit = TerminalBenefit(employee_id=employee_id,staff_name=staff_name,monthly_netpay=monthly_netpay,
+            days_inlieu=days_inlieu,payment_inlieu=payment_inlieu,hold_salary=hold_salary,pension_accrued=pension_accrued,
+            pension_paid=pension_paid, outstanding_pension=outstanding_pension,leave_allowance_accrued=leave_allowance_accrued,
+            leave_allowance_paid=leave_allowance_paid,leave_allowance=leave_allowance,total_allowance=total_allowance,
+            breakages_damages=breakages_damages,days_inlieu_deducted=days_inlieu_deducted,salary_inlieu=salary_inlieu,
+            overpayment=overpayment,total_deduction=total_deduction,entitlement=entitlement,amount_payable=amount_payable,
+            pfa=pfa,salary_account=salary_account)
+            db.session.add(newbenefit)
+            db.session.commit()
+            flash('Terminal Benefit Calculated!', category='success')
+            return redirect(url_for('views.terminal'))
+        
+
+
+
+    
+    return render_template("calculate.html", user=current_user, id_to_append=id_to_append )
+ 
 @views.route('/admin', methods=['GET', 'POST'])
 @login_required
 def admin():
@@ -165,7 +236,7 @@ def updateusers(id):
         id_to_update.username = request.form.get('username')
         id_to_update.staff_name = request.form.get('staffName')
         id_to_update.password = generate_password_hash(request.form.get('password1'),method='sha256') 
-        
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
         id_to_update.location = request.form.get('location')
         id_to_update.department = request.form.get('department')
         id_to_update.linemanager_status=request.form.get('linemanager_status')
@@ -412,6 +483,13 @@ def report(id):
     
     
     return render_template("report.html", user=current_user, id_to_update=id_to_update,exit_employees=exit_employees)
+
+@views.route('/statement/<id>', methods=['GET', 'POST'])
+def statement(id):
+    
+    id_to_view = TerminalBenefit.query.filter_by(employee_id=id).first()
+    
+    return render_template("statement.html", user=current_user, id_to_view=id_to_view)
 
 @views.route('/download/<int:id>')
 @login_required

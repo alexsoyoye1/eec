@@ -82,6 +82,49 @@ class ExitEmployees(db.Model):
 
 
 
+class TerminalBenefit(db.Model):
+    id = db.Column(db.Integer, primary_key=True) 
+    employee_id = db.Column(db.String(150))
+    staff_name = db.Column(db.String(150))
+    monthly_netpay = db.Column(db.Float)  
+    days_inlieu =db.Column(db.Integer)  
+    payment_inlieu = db.Column(db.Float)  
+    hold_salary = db.Column(db.Float)
+
+    #PENSION
+    pension_accrued = db.Column(db.Float)
+    pension_paid = db.Column(db.Float)
+    outstanding_pension = db.Column(db.Float)
+
+    #Leave Allowance
+    leave_allowance_accrued = db.Column(db.Float)
+    leave_allowance_paid = db.Column(db.Float)
+    leave_allowance = db.Column(db.Float)
+    total_allowance = db.Column(db.Float)
+
+    #DEDUCTION
+    breakages_damages = db.Column(db.Float)
+    days_inlieu_deducted = db.Column(db.Integer)
+    salary_inlieu = db.Column(db.Float)
+    overpayment = db.Column(db.Float)
+    total_deduction = db.Column(db.Float)
+
+    #FINAL ENTITLEMENT
+    entitlement = db.Column(db.Float)
+    amount_payable = db.Column(db.Float)
+    salary_account = db.Column(db.Float)
+    pfa = db.Column(db.Float)
+
+
+
+
+
+
+
+
+
+
+
 
 
 

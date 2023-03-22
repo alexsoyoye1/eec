@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/x-icon" href="{{url_for('static', filename='logo.png')}}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{url_for('static', filename='base.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='bootstrap.min.css')}}">
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous"> -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/fontawesome.min.css" integrity="sha384-z4tVnCr80ZcL0iufVdGQSUzNvJsKjEtqYZjiQrrYKlpGow+btDHDfQWkFjoaz/Zr" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{url_for('static', filename='report.css')}}">
+  <title>Report</title>
+  <style>
+      h1,h2,h3,h4, label,p{
+        color: whitesmoke;
+        font-family: 'Courier New', Courier, monospace;
+    }
+    .padding{
+      padding: 10%;
+    }
+
+    .table .tghead{
+        font-weight:bold;text-align:left;
+        color: whitesmoke;
+    }
+
+    .table .tgcharge{
+        font-weight:bold;text-align:center;color: whitesmoke;
+    }
+    .table .tgcharge-total{
+        font-weight:bold;text-align:center;color: red;
+    }
+    .table .tgtotal{background-color:#c0c0c0;font-weight:bold;}
+    td{
+        color: whitesmoke;
+    }
+    table {
+
+      caption-side: bottom;
+      border-collapse: collapse;
+    }
+    .table {
+    --bs-table-bg: transparent;
+    --bs-table-accent-bg: transparent;
+    --bs-table-striped-color: #212529;
+    --bs-table-striped-bg: rgba(0, 0, 0, 0.05);
+    --bs-table-active-color: #212529;
+    --bs-table-active-bg: rgba(0, 0, 0, 0.1);
+    --bs-table-hover-color: #212529;
+    --bs-table-hover-bg: rgba(0, 0, 0, 0.075);
+    width: 100%;
+    margin-bottom: 1rem;
+    color: #212529;
+    vertical-align: top;
+    border-color: black;
+  }
+    .table > :not(caption) > * > * {
+      padding: 0.5rem 0.5rem;
+      background-color: var(--bs-table-bg);
+      border-bottom-width: 1px;
+      box-shadow: inset 0 0 0 9999px var(--bs-table-accent-bg);
+    }
+    .table > tbody {
+      vertical-align: inherit;
+    }
+    .table > thead {
+      vertical-align: bottom;
+    }
+    .table > :not(:last-child) > :last-child > * {
+      border-bottom-color: currentColor;
+    }
+    .table-hover > tbody > tr:hover {
+      --bs-table-accent-bg: var(--bs-table-hover-bg);
+      color: var(--bs-table-hover-color);
+    }
+    .logo-image{
+        width: 20%;
+        height: auto;
+        padding-bottom: 50px;
+        margin: 0;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        position: relative;
+        top: -100px;
+       
+        
+        
+    }
+    .logobox{
+      display: flex;
+      justify-content: center;
+      float: left;
+    }
+  </style>
+</head>
+<body>
+  
+  <div class="container padding">
+    
+    <div>
+      <img src="{{url_for('static', filename='logo.png')}}" class="logo-image" style="float: left;">
+      <h1 align="center">Terminal Benefits Report</h1>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+  
+    
+    <h4 align="left">Employee Details</h4>
+      <table class="table table-hover">
+          <thead>
+            <tr>
+              <td class="tghead">Employee ID</td>
+              <td>{{ id_to_view.employee_id }}</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="tghead">Staff Name</td>
+              <td>{{ id_to_view.staff_name }}</td>
+            </tr>
+            <tr>
+              <td class="tghead">Standard Monthly Net Pay</td>
+              <td>{{ id_to_view.monthly_netpay }}</td>
+            </tr>
+            <tr>
+              <td class="tghead">Number of days in Lieu Payable</td>
+              <td>{{ id_to_view.days_inlieu }}</td>
+            </tr>
+            <tr>
+              <td class="tghead">Payment in Lieu Of Notice</td>
+              <td>{{ id_to_view.payment_inlieu }}</td>
+            </tr>
+            <tr>
+              <td class="tghead">Salary on Hold/Payable</td>
+              <td>{{ id_to_view.hold_salary }}</td>
+            </tr>
+            
+          </tbody>
+      </table>
+     
+      <br>
+      <br>
+      <h4 align="left">Accrued Pensions</h4>
+      <table class="table table-hover">
+          <thead>
+            <tr>
+              <td class="tghead">Total Pension Accrued</td>
+              <td>{{ id_to_view.pension_accrued }}</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="tghead">Total Pension Paid</td>
+              <td>{{ id_to_view.pension_paid }}</td>
+            </tr>
+            <tr>
+              <td class="tghead">Total Outstanding Pension</td>
+              <td>{{ id_to_view.outstanding_pension }}</td>
+            </tr>
+          </tbody>
+      </table>
+      <br>
+      <br>
+      <br>
+      <br>
+      <h4 align="left">Accrued Leave Allowance</h4>
+      <table class="table table-hover">
+          <thead>
+            <tr>
+                <td class="tghead">Leave Allowance Accrued</td>
+                <td>{{ id_to_view.leave_allowance_accrued }}</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="tghead">Leave Allowance Paid</td>
+              <td>{{ id_to_view.leave_allowance_paid }}</td>
+            </tr>
+            <tr>
+              <td class="tghead">Leave Allowance</td>
+              <td>{{ id_to_view.leave_allowance }}</td>
+            </tr>
+            <tr>
+              <td class="tghead">Total Allowance</td>
+              <td>{{ id_to_view.total_allowance }}</td>
+            </tr>
+          </tbody>
+      </table>
+      <br>
+      <br>
+      <h4 align="left">Deductions</h4>
+      <table class="table table-hover">
+          <thead>
+            <tr>
+              <td class="tghead">Breakages, Damages & Other Deductions</td>
+              <td>{{ id_to_view.breakages_damages }}</td>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <tr>
+              <td class="tghead">Number of days of lieu deducted/Other days not worked</td>
+              <td>{{ id_to_view.days_inlieu_deducted }}</td>
+            </tr>
+            <tr>
+              <td class="tghead">Salary in lieu of notice</td>
+              <td>{{ id_to_view.salary_inlieu }}</td>
+            </tr>
+            <tr>
+              <td class="tghead">Overpayment</td>
+              <td>{{ id_to_view.overpayment }}</td>
+            </tr>
+            <tr>
+              <td class="tghead">Total Deduction</td>
+              <td>{{ id_to_view.total_deduction }}</td>
+            </tr>
+          </tbody>
+      </table>
+      <br>
+      <br>
+      <h4 align="left">Final Entitlements</h4>
+      <table class="table table-hover">
+          <thead>
+            <tr>
+                <td class="tghead">Entitlement</td>
+                <td>{{ id_to_view.entitlement }}</td>
+            </tr>
+            
+          </thead>
+          <tbody>
+            <tr>
+              <td class="tghead">Amount Payable</td>
+              <td>{{ id_to_view.amount_payable }}</td>
+            </tr>
+            <tr>
+              <td class="tghead">To Salary Account</td>
+              <td>{{ id_to_view.salary_account }}</td>
+            </tr>
+            <tr>
+              <td class="tghead">To PFA</td>
+              <td>{{ id_to_view.pfa }}</td>
+            </tr>
+            
+          
+          </tbody>
+      </table>
+      
+      <br>
+      <br>
+      
+  <br>
+  <br>
+  </div>
+  
+</body>
+</html>
