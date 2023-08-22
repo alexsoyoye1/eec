@@ -1,0 +1,182 @@
+{% extends "base.html" %}
+{% block stylesheet %}
+<link rel="stylesheet" href="{{url_for('static', filename='new.css')}}">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+{% endblock %}
+{% block title %}New Exit Form{% endblock %}
+
+{% block content %}
+
+    <h3 align="center">Exit Form</h3>
+    <br>
+    <form method="POST">
+        <h4 align="left">Employee Details</h4>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="employee_id">Employee ID:</label>
+                    <input type="text" class="form-control" id="employee_id" name="employee_id" placeholder="Enter Employee ID" required/>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="staff_name">Employee Name:</label>
+                    <input type="text" class="form-control" id="staff_name" name="staff_name" placeholder="Employee Name" required/>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="department">Department:</label>
+                    <select id="department" name="department" class="form-select" required>
+                        <option selected disabled> </option>
+                        <option value="HR">Human Resources</option>
+                        <option value="IT">Information Technology</option>
+                        <option value="Finance">Finance</option>
+                        <option value="Treasury">Treasury</option>
+                        <option value="CS">Corporate Services</option>
+                        <option value="Operations">Operations</option>
+                        <option value="Technical">Technical</option>
+                        <option value="GZEP">GZEP</option>
+                        <option value="PVL">PVL</option>
+                        
+                    </select>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="location">Location:</label>
+                    <input type="text" class="form-control" id="location" name="location" placeholder="Location" required/>
+                </div> 
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="confirmed_employee">Confirmed Employee:</label>
+            <select id="confirmed_employee" name="confirmed_employee" class="form-select" required>
+                <option selected disabled> </option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+                
+            </select>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="employmentdate">Employment Date:</label>
+                    <input type="date" class="form-control" id="employmentdate" name="employmentdate" required/>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="req_notice">Required Notice Period:</label>
+                    <input type="number" class="form-control" id="req_notice" name="req_notice"  
+                    onchange="add_days(this.value,document.getElementById('res_received_date').value)"required/>
+                </div>
+                
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="res_received_date">Resignation/Termination Start Date:</label>
+                    <input type="date" class="form-control" id="res_received_date" name="res_received_date" 
+                    onchange="add_days(document.getElementById('req_notice').value,this.value)" required/>
+                </div>
+                
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="prop_exitdate">Proposed Exit Date:</label>
+                    <input type="date" class="form-control" id="prop_exitdate" name="prop_exitdate" 
+                    onchange="cal_days(document.getElementById('cal_exitdate').value,this.value)" required/>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="cal_exitdate">Calculated Exit Date:</label>
+                    <input type="date" class="form-control" id="cal_exitdate" name="cal_exitdate" readonly/>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="days_inlieu">In Lieu Days:</label>
+                    <input type="number" class="form-control" id="days_inlieu" name="days_inlieu" readonly/>
+                </div>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="leave_days">Accrued Leave Days:</label>
+            <input type="number" class="form-control" id="leave_days" name="leave_days" />
+        </div>
+        <br>
+        
+        <p align="left"><strong>Line Manager</strong></p>
+        <div id="lm_list" class="form-group">
+            <label for="sendto_email">Line Manager Email:</label>
+            
+            <select id="sendto_email" name="sendto_email" class="form-control"  required>
+                <option selected disabled> </option>
+                
+                {% for item in lm_list %}
+                
+                <option value="{{ item}}">{{ item }}</option>
+             
+                {% endfor %}
+            </select>
+        </div>
+        
+        <br>
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+    
+    </form>
+    <br>
+        
+    
+    
+
+{% endblock %}
+
+{% block Javascript %}
+    <script>
+            $('#sendto_email').select2({
+            dropdownParent: $('#lm_list')
+        });
+        function add_days(days, res_date) {
+
+            var date = new Date(res_date);
+            var d = date.getTime() + (days * 24 * 60 * 60 * 1000);
+            var date_new = new Date(d)
+            var string = date_new.toISOString().slice(0,10);
+
+            document.getElementById('cal_exitdate').value = string;
+  
+        }
+        function cal_days(cal_date, prop_date) {
+            var date1 = new Date(cal_date);
+            var date2 = new Date(prop_date);
+            var diffDays = parseInt((date2 - date1) / (1000 * 60 * 60 * 24), 10);
+            
+                if (diffDays >= 0) {
+                document.getElementById('days_inlieu').value = 0;
+                } else {
+                document.getElementById('days_inlieu').value = diffDays;
+                }
+        
+        }
+    </script>
+{% endblock %}

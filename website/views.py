@@ -222,7 +222,17 @@ def admin():
     else:
         flash('You do not have access to this page', category='error')
         return redirect(url_for('views.home'))
-        
+    
+@views.route('/status', methods=['GET', 'POST'])
+@login_required
+def status():
+   
+   
+    exit_employees = ExitEmployees.query.order_by(ExitEmployees.id)
+    users=User.query.order_by(User.id)
+    
+    return render_template("status.html", user=current_user, exit_employees=exit_employees, users=users)
+ 
 @views.route('/update_users/<int:id>', methods=['GET', 'POST'])
 @login_required
 def updateusers(id):

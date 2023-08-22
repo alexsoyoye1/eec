@@ -28,6 +28,7 @@
                     {% if user.is_authenticated %}
                     <a class="nav-item nav-link align-middle" id="home" href="/">Home</a>
                     <a class="nav-item nav-link align-middle" id="settings" href="/settings">Settings</a>
+                    <a class="nav-item nav-link align-middle" id="status" href="/status">Form Status</a>
                     {% if user.department=="IT" and user.head_status=="Yes" %}
                     <a class="nav-item nav-link align-middle" id="admin" href="/admin">Admin Controls</a>
                     {% endif %}

@@ -9,6 +9,7 @@ from datetime import datetime, timedelta
 class ExitEmployees(db.Model):
     id = db.Column(db.Integer, primary_key=True) 
     sendto = db.Column(db.String(150))
+    
 
 
     #HR Department Fields

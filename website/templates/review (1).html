@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% block stylesheet %}<link rel="stylesheet" href="{{url_for('static', filename='review.css')}}">{% endblock %}
+{% block title %}Review Exit Form{% endblock %}
+
+{% block content %}
+
+    <br>
+    <h3 align="center">Review Exit Forms</h3>
+    <br>
+    <table class="table table-hover ">
+        <thead>
+            <tr>
+              <th class="tghead">Empolyees Pending Review</th>
+              
+            </tr>
+          </thead>
+        {% for employee in exit_employees %}
+            {% if employee.sendto == 'IT' and user.department == "IT" and user.head_status == "Yes" %}
+                <tr>
+                    <td><a href="{{url_for('views.update', id=employee.id)}}">{{employee.staff_name}}</a> - {{employee.employee_id}}</td>    
+
+
+                </tr>
+            {% elif employee.sendto == "CS" and user.department == "CS" and user.head_status == "Yes" %}
+                <tr>
+                    <td><a href="{{url_for('views.update', id=employee.id)}}">{{employee.staff_name}}</a> - {{employee.employee_id}}</td>    
+
+
+                </tr>
+            {% elif employee.sendto == "Finance" and user.department == "Finance" and user.head_status == "Yes" %}
+                <tr>
+                    <td><a href="{{url_for('views.update', id=employee.id)}}">{{employee.staff_name}}</a> - {{employee.employee_id}}</td>    
+
+
+                </tr>
+            {% elif employee.sendto == "HR" and user.department == "HR" and employee.hr_signatory_email == user.email and user.head_status =="No" and employee.final_approval_status != "Approved"%}
+                <tr>
+                    <td><a href="{{url_for('views.update', id=employee.id)}}">{{employee.staff_name}}</a> - {{employee.employee_id}}</td>    
+
+
+                </tr>
+            {% elif (employee.sendto == "Operations" or employee.sendto == "Technical" or employee.sendto == "GZEP" or employee.sendto == "PVL") and (user.department == "Operations" or user.department == "Technical" or user.department == "GZEP" or user.department == "PVL") and employee.sendto_email == user.email %}
+                <tr>
+                    <td><a href="{{url_for('views.update', id=employee.id)}}">{{employee.staff_name}}</a> - {{employee.employee_id}}</td>    
+
+
+                </tr>
+            {% elif employee.sendto_email == user.email and (employee.sendto == "Operations" or employee.sendto == "Technical" or employee.sendto == "GZEP" or employee.sendto == "PVL") and user.head_status == "No" %}
+                <tr>
+                    <td><a href="{{url_for('views.update', id=employee.id)}}">{{employee.staff_name}}</a> - {{employee.employee_id}}</td>    
+
+
+                </tr>
+
+        
+
+
+
+            {% endif %}
+
+
+
+        {% endfor %}   
+    
+    </table> 
+
+    <form method="POST">
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="employee_id">Employee ID:</label>
+                    <input type="text" class="form-control" id="employee_id" name="employee_id"  disabled/>
+                </div>
+
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="staff_name">Staff Name:</label>
+                    <input type="text" class="form-control" id="staff_name" name="staff_name"  disabled/>
+                </div>
+            </div>
+        </div>
+        
+        <br>
+        <button type="submit" class="btn btn-primary" disabled>Update</button>
+        <br>
+        <br>
+
+    </form>
+     
+
+{% endblock %}
